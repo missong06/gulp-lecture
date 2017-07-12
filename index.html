@@ -93,9 +93,11 @@ npm install --global gulp-cli</code></pre>
         <pre><code data-trim class="bash">
 $ mkdir gulp-practice # 프로젝트 폴더 생성
 $ cd gulp-practice
+$ npm init
 $ npm install --save-dev gulp # 패키지 설치
 $ code .</code></pre>
         <pre><code data-trim class="javascript">
+// gulpfile.js
 const gulp = require('gulp');
 
 // default task
@@ -124,15 +126,11 @@ gulp.task('concat', function() {
 ...
 // default task
 gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code></pre>
-        <aside class="notes">task 간 의존관계 - 순서 없음</aside>
       </section>
 
       <section>
         <h2>pipe</h2>
         <img src="./pipe.png" alt="">
-        <aside class="notes">
-          pipe에서 "어떻게" 빌드를 할 지 지정해주는 것. 주의! 앞에서도 봤듯이 모든 task가 이런 건 아님.
-        </aside>
       </section>
 
       <section>
@@ -146,15 +144,12 @@ gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code
       <section>
         <h2>HTML &amp; Sass 실습</h2>
         <ul>
-          <li>gulp-copy</li>
-          <li>gulp-sass</li>
-          <li>gulp-clean</li>
-          <li>gulp-sourcemaps</li>
-          <li>gulp.watch &amp; browsersync</li>
+          <li><a href="https://www.npmjs.com/package/gulp-copy" target="_blank">gulp-copy</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-sass" target="_blank">gulp-sass</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-clean" target="_blank">gulp-clean</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-sourcemaps" target="_blank">gulp-sourcemaps</a></li>
+          <li><a href="https://www.npmjs.com/package/browser-sync">gulp.watch &amp; browsersync</a></li>
         </ul>
-        <aside class="notes">
-          sourcemap은 배포용 파일에는 들어가지 않게 하는게 좋음.
-        </aside>
       </section>
 
       <section>
@@ -222,7 +217,6 @@ return gulp.src('dist/**/*')
 # .gitignore에 추가
 .publish
 </code></pre>
-        <pre><code></code></pre>
       </section>
 
       <section>
