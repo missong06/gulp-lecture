@@ -1,49 +1,272 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+  <title>reveal.js</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>gulp 특강</h1>
+      </section>
+
+      <section>
+        <h2>gulp</h2>
+        <p>= 웹 개발을 위한 <em>빌드 도구</em></p>
+        <p>= 개발 과정에서 제작한 원본 소스를,<br> 실행 및 배포할 수 있는 형태로 <em>변환</em>하는 도구</p>
+      </section>
+
+      <section>
+        <section>
+          <h2>빌드 도구의 필요성</h2>
+        </section>
+        <section>
+          <h3>점점 복잡해지는 웹개발</h3>
+          <ul>
+            <li>Pug, Sass, TypeScript 등의 확장 언어</li>
+            <li>디버깅을 위한 source map</li>
+          </ul>
+        </section>
+        <section>
+          <h3>최적화</h3>
+          <ul>
+            <li>압축</li>
+            <li>이미지 크기 변환</li>
+            <li>파일 합치기</li>
+            <li>사용되지 않는 코드 제거</li>
+            <li>...</li>
+          </ul>
+        </section>
+        <section>
+          <h3>빌드 과정의 자동화</h3>
+          <p>각 단계를 하나하나 수작업으로 실행시킬 수 있지만, <br><em>비효율적</em></p>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>gulp의 특징</h2>
+          <ul>
+            <li>JS 코드를 이용해 빌드 과정 정의</li>
+            <li>Node.js Stream 활용 - 디스크 쓰기를 최소화</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Grunt</h2>
+          <ul>
+            <li>gulp가 나오기 전에 널리 쓰이던 빌드 도구</li>
+            <li>JSON 문서로 빌드 과정 정의 - 유연하지 못함</li>
+            <li>중간 과정 파일을 디스크에 씀 - 느림</li>
+          </ul>
+          <p>=> gulp 위주로 생태계가 재편됨</p>
+        </section>
+      </section>
+
+      <section>
+        <h2>커맨드라인 도구 설치</h2>
+        <pre><code data-trim class="bash">
+npm install --global gulp-cli</code></pre>
+      </section>
+
+      <section>
+        <h2>첫 gulpfile.js</h2>
+        <pre><code data-trim class="bash">
+$ mkdir gulp-practice # 프로젝트 폴더 생성
+$ cd gulp-practice
+$ npm install --save-dev gulp # 패키지 설치
+$ code .</code></pre>
+        <pre><code data-trim class="javascript">
+const gulp = require('gulp');
+
+// default task
+gulp.task('default', function() {
+  console.log('hello!');
+});</code></pre>
+        <pre><code data-trim class="bash">
+$ gulp default
+$ gulp # default task 실행</code></pre>
+      </section>
+
+      <section>
+        <h2>gulp-concat</h2>
+        <pre><code data-trim class="bash">
+$ npm install --save-dev gulp-concat</code></pre>
+        <pre><code data-trim class="javascript">
+...
+const concat = require('gulp-concat'); // concat 플러그인
+...
+// concat task
+gulp.task('concat', function() {
+  return gulp.src('./app/**/*.js') // 변환할 파일 선택
+    .pipe(concat('build.js')) // 플러그인 적용
+    .pipe(gulp.dest('./dist/')); // 변환된 파일이 저장될 폴더 지정
+})
+...
+// default task
+gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code></pre>
+        <aside class="notes">task 간 의존관계 - 순서 없음</aside>
+      </section>
+
+      <section>
+        <h2>pipe</h2>
+        <img src="./pipe.png" alt="">
+        <aside class="notes">
+          pipe에서 "어떻게" 빌드를 할 지 지정해주는 것. 주의! 앞에서도 봤듯이 모든 task가 이런 건 아님.
+        </aside>
+      </section>
+
+      <section>
+        <h2><a href="https://gist.github.com/torgeir/8507130" target="_blank">gulpfile.js 예제</a></h2>
+      </section>
+
+      <section>
+        <h1>break</h1>
+      </section>
+
+      <section>
+        <h2>HTML &amp; Sass 실습</h2>
+        <ul>
+          <li>gulp-copy</li>
+          <li>gulp-sass</li>
+          <li>gulp-clean</li>
+          <li>gulp-sourcemaps</li>
+          <li>gulp.watch &amp; browsersync</li>
+        </ul>
+        <aside class="notes">
+          sourcemap은 배포용 파일에는 들어가지 않게 하는게 좋음.
+        </aside>
+      </section>
+
+      <section>
+        <h1>break</h1>
+      </section>
+
+      <section>
+        <h2><a href="https://github.com/google/web-starter-kit" target="_blank">web starter kit</a></h2>
+        <aside class="notes">
+          gulp가 긴 프로젝트에서도 쓰이는 경우가 있긴 하지만 아마 급하게 만드는 경우가 더 많을 텐데.
+          gulpfile.js는 자주 작성하는 것이 아니기에 매번 gulpfile.js를 작성하는 것은 불편하고 다 기억하지도 못함.
+          미리 만들어져있는 걸 쓰자!
+        </aside>
+      </section>
+
+      <section>
+        <h2>built-in features</h2>
+        <ul>
+          <li>ESLint</li>
+          <li>Sass</li>
+          <li><a href="https://github.com/postcss/autoprefixer">Autoprefixer</a></li>
+          <li>Babel</li>
+          <li>UglifyJS</li>
+          <li>Offline support</li>
+          <li>imagemin</li>
+          <li><a href="https://www.npmjs.com/package/gulp-useref">useref</a></li>
+          <li>Browsersync</li>
+          <li>...</li>
+        </ul>
+        <aside class="notes">
+          service worker...??
+          매번 요구사항을 완벽히 충족시킬 수는 없을 테니 gulpfile을 조금씩 수정할 필요가 있을 것임.
+        </aside>
+      </section>
+
+      <section>
+        <h2>실습</h2>
+        <p>Download &amp; npm install</p>
+      </section>
+
+      <section>
+        <h2>web starter kit - tasks</h2>
+        <dl>
+          <dt>gulp serve</dt>
+          <dd>개발용 빌드로 서버 실행</dd>
+          <dt>gulp serve:dist</dt>
+          <dd>배포용 빌드로 서버 실행</dd>
+          <dt>gulp (default)</dt>
+          <dd>배포용 빌드 실행</dd>
+        </dl>
+        <aside class="notes">배포용 빌드는 html 압축, 이미지 압축같은 것을 포함하도록 되어 있다.</aside>
+      </section>
+
+      <section>
+        <aside class="notes">gh-pages라는 브랜치에 푸시하면 웹페이지를 호스팅해주는 것을 이용한 것임.</aside>
+        <h2><a href="https://medium.com/superhighfives/deploying-to-github-pages-with-gulp-c06efc527de8" target="_blank">github pages에 배포하기</a></h2>
+        <pre><code data-trim>$ npm install --save-dev gulp-gh-pages</code></pre>
+        <pre><code data-trim>
+// gulpfile.js에 추가
+gulp.task('deploy', ['default'], () => {
+return gulp.src('dist/**/*')
+  .pipe($.ghPages());
+});</code></pre>
+        <pre><code data-trim>
+# .gitignore에 추가
+.publish
+</code></pre>
+        <pre><code></code></pre>
+      </section>
+
+      <section>
+        <aside class="notes">windows에서 deploy 에러가 나는 분은 default task에서 'lint'를 지우고 하면 될 것임</aside>
+        <h2><a href="https://medium.com/superhighfives/deploying-to-github-pages-with-gulp-c06efc527de8" target="_blank">github pages에 배포하기</a></h2>
+        <pre><code class="bash" data-trim>
+$ # git 저장소 만들기
+$ git init
+$ git add .
+$ git commit -m "initial"
+$ git remote add origin [github에서 만든 저장소 주소]
+$ git push -u origin master
+</code></pre>
+<pre><code class="bash" data-trim>
+$ # gh-pages 브랜치 만들기
+$ git checkout --orphan gh-pages
+$ git rm -rf .
+$ touch README.md
+$ git add README.md
+$ git commit -m "Initial commit"
+$ git push --set-upstream origin gh-pages
+$ git checkout master
+$ gulp deploy
+</code></pre>
+      </section>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+  </script>
+</body>
+
 </html>
