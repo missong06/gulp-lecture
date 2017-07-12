@@ -144,11 +144,12 @@ gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code
       <section>
         <h2>HTML &amp; Sass 실습</h2>
         <ul>
-          <li><a href="https://www.npmjs.com/package/gulp-copy" target="_blank">gulp-copy</a></li>
-          <li><a href="https://www.npmjs.com/package/gulp-sass" target="_blank">gulp-sass</a></li>
+          <li>simple copy</li>
           <li><a href="https://www.npmjs.com/package/gulp-clean" target="_blank">gulp-clean</a></li>
-          <li><a href="https://www.npmjs.com/package/gulp-sourcemaps" target="_blank">gulp-sourcemaps</a></li>
-          <li><a href="https://www.npmjs.com/package/browser-sync">gulp.watch &amp; browsersync</a></li>
+          <li><a href="https://www.npmjs.com/package/run-sequence" target="_blank">run-sequence</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-sass" target="_blank">gulp-sass</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-sass#source-maps" target="_blank">gulp-sourcemaps</a></li>
+          <li><a href="https://browsersync.io/docs/gulp#gulp-sass-css" target="_blank">gulp.watch &amp; browsersync</a></li>
         </ul>
       </section>
 
@@ -170,12 +171,12 @@ gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code
         <ul>
           <li>ESLint</li>
           <li>Sass</li>
-          <li><a href="https://github.com/postcss/autoprefixer">Autoprefixer</a></li>
+          <li><a href="https://github.com/postcss/autoprefixer" target="_blank">Autoprefixer</a></li>
           <li>Babel</li>
           <li>UglifyJS</li>
           <li>Offline support</li>
           <li>imagemin</li>
-          <li><a href="https://www.npmjs.com/package/gulp-useref">useref</a></li>
+          <li><a href="https://www.npmjs.com/package/gulp-useref" target="_blank">useref</a></li>
           <li>Browsersync</li>
           <li>...</li>
         </ul>
@@ -186,8 +187,12 @@ gulp.task('default', ['concat']); // task 간 의존관계 - 순서 없음</code
       </section>
 
       <section>
-        <h2>실습</h2>
-        <p>Download &amp; npm install</p>
+        <h2>실습 준비</h2>
+        <ul>
+          <li><a href="https://developers.google.com/web/tools/starter-kit/?hl=ko" target="_blank">Download link</a></li>
+          <li>압축 풀기</li>
+          <li>npm install</li>
+        </ul>
       </section>
 
       <section>
@@ -239,7 +244,7 @@ $ git add README.md
 $ git commit -m "Initial commit"
 $ git push --set-upstream origin gh-pages
 $ git checkout master
-$ gulp deploy
+$ gulp deploy # https://[아이디].github.io/[저장소 이름] 접속
 </code></pre>
       </section>
     </div>
